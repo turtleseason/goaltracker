@@ -1,0 +1,57 @@
+﻿<Window x:Class="GoalTracker.Windows.RemoveGoalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoalTracker"
+        xmlns:converter="clr-namespace:GoalTracker.Converters"
+        mc:Ignorable="d"
+        Title="Remove Goal" SizeToContent="Height" Width="300"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource windowStyle}"
+        d:DataContext="{x:Static local:DesignerData.RemoveGoalWindowViewModel}">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseCommand}" Key="Esc"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <converter:BooleanInverseConverter x:Key="inverseBoolConverter"/>
+    </Window.Resources>
+
+    <StackPanel Margin="10">
+        <Label>Remove Goal:</Label>
+
+        <Border BorderBrush="DarkGray" BorderThickness="1" Margin="10,5,0,0">
+            <ScrollViewer Height="150">
+                <ListBox Name="goalsList" SelectionMode="Multiple" ItemsSource="{Binding Goals}"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Name, Mode=OneWay}"/>
+                                (<Run Text="{Binding Type, Mode=OneWay}"/>)
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Border>
+
+        <CheckBox Content="Remove past entries" IsChecked="{Binding DeleteDataEntries}" Margin="0,10,0,0"/>
+        <StackPanel IsEnabled="{Binding DeleteDataEntries, Mode=OneWay}" Margin="20,5,0,0">
+            <RadioButton GroupName="deleteEntriesGroup" IsChecked="{Binding DeleteAll}" Content="All"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton GroupName="deleteEntriesGroup" IsChecked="False"
+                             Content="Starting from " VerticalAlignment="Center"/>
+                <DatePicker SelectedDate="{Binding DeleteAfterDate}"
+                            IsEnabled="{Binding DeleteAll, Converter={StaticResource inverseBoolConverter}, Mode=OneWay}"
+                            Width="145" Margin="5,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Button Command="{Binding RemoveGoalsCommand}"
+                CommandParameter="{Binding ElementName=goalsList, Path=SelectedItems}"
+                Content="Remove" Width="100" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>

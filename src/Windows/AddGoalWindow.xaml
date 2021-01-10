@@ -1,0 +1,58 @@
+﻿<Window x:Class="GoalTracker.Windows.AddGoalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Add Goal" SizeToContent="Height" Width="330" 
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource windowStyle}">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseCommand}" Key="Esc"/>
+    </Window.InputBindings>
+
+    <StackPanel Margin="10">
+        <Label>Add Goal:</Label>
+        
+        <DockPanel Margin="10,5,0,0">
+            <Label DockPanel.Dock="Left">Name:</Label>
+            <TextBox Text="{Binding Name, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+        </DockPanel>
+        
+        <DockPanel Margin="10,10,0,0">
+            
+            <RadioButton GroupName="GoalType" Content="Daily" IsChecked="True"
+                         DockPanel.Dock="Left" VerticalContentAlignment="Center"/>
+            
+            <RadioButton GroupName="GoalType" Content="Weekly" IsChecked="{Binding IsWeekly}"
+                         DockPanel.Dock="Left" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+
+            <StackPanel IsEnabled="{Binding IsWeekly, Mode=OneWay}" 
+                        Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <Label VerticalAlignment="Center">Target:</Label>
+                <ComboBox ItemsSource="{Binding TargetValues}" SelectedItem="{Binding WeeklyTarget}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label>per week</Label>
+            </StackPanel>
+            
+        </DockPanel>
+
+        <StackPanel Orientation="Vertical" Margin="10,10,0,0">
+            
+            <CheckBox IsChecked="{Binding AddData}" Content="Add to existing, starting from..."/>
+            <DatePicker IsEnabled="{Binding AddData, Mode=OneWay}"
+                        SelectedDate="{Binding AddDataStartDate}"
+                        Width="120" HorizontalAlignment="Left" Margin="20,5,0,0"/>
+            
+        </StackPanel>
+
+        <Button Command="{Binding AddGoalCommand}" Content="Add"
+                Width="100" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>

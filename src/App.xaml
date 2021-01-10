@@ -1,0 +1,26 @@
+﻿<local:SkinnedApplication x:Class="GoalTracker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GoalTracker"
+             Startup="Application_Startup"
+             DefaultSkinName="Default">
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="pack://application:,,,/src/Themes/DefaultTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/src/Themes/GrayscaleTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/src/Themes/Grayscale DarkTheme.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/src/Themes/IcyTheme.xaml"/>
+                <!--<ResourceDictionary Source="pack://application:,,,/src/Themes/NightTheme.xaml"/>-->
+                <ResourceDictionary Source="pack://application:,,,/src/Themes/SpringTheme.xaml"/>
+
+                <ResourceDictionary Source="Themes/Brushes.xaml"/>
+                <ResourceDictionary Source="Themes/Styles.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+    
+</local:SkinnedApplication>

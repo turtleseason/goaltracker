@@ -1,0 +1,282 @@
+﻿<Window x:Class="GoalTracker.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoalTracker"
+        xmlns:converter="clr-namespace:GoalTracker.Converters"
+        mc:Ignorable="d"
+        Title="Goal Tracker" SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize"
+        MouseDown="Window_MouseDown"
+        d:DataContext="{x:Static local:DesignerData.MainWindowViewModel}">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseCommand}" Key="Esc"/>
+    </Window.InputBindings>
+    
+    <Window.Resources>
+        <converter:CalendarBackgroundColorConverter x:Key="calendarBackgroundConverter"/>
+        <converter:CalendarForegroundColorConverter x:Key="calendarForegroundConverter"/>
+        <converter:CalendarWeekBackgroundColorConverter x:Key="calendarWeekBackgroundConverter"/>
+        <converter:CalendarWeekForegroundColorConverter x:Key="calendarWeekForegroundConverter"/>
+        <converter:InverseBooleanVisibilityConverter x:Key="inverseBoolVisibilityConverter"/>
+        <converter:EscapeUnderscoresConverter x:Key="escapeUnderscoresConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolVisibilityConverter"/>
+
+        <!-- Need to override Button control template to change hover/focus styling -->
+        <ControlTemplate x:Key="calendarButtonControlTemplate" TargetType="{x:Type Button}">
+            <Border x:Name="border" CornerRadius="7" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                  Focusable="False" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="{DynamicResource CalendarHoverBgBrush}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CalendarHoverBorderBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="{DynamicResource CalendarHoverBgBrush}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CalendarHoverBorderBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" TargetName="border" Value="{DynamicResource CalendarBgDisabled}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CalendarBorderDisabled}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarFgDisabled}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="{DynamicResource CalendarHoverBgBrush}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource CalendarHoverBorderBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="weekButtonControlTemplate" TargetType="{x:Type Button}">
+            <Border x:Name="border" CornerRadius="0,7,7,0" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                  Focusable="False" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource CalendarHoverFgBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="switchMonthButtonStyle" TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource calendarButtonControlTemplate}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="calendarButtonStyle" TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource calendarButtonControlTemplate}"/>
+            <Setter Property="Background" Value="{Binding CompletionPercentage, Converter={StaticResource calendarBackgroundConverter}}"/>
+            <Setter Property="Foreground" Value="{Binding CompletionPercentage, Converter={StaticResource calendarForegroundConverter}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CalendarBorderBrush}"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style x:Key="addWeekButtonStyle" TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource calendarButtonControlTemplate}"/>
+            <Setter Property="Background" Value="{DynamicResource CalendarBgBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CalendarFgBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CalendarBorderBrush}"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
+        <Style x:Key="weekButtonStyle" TargetType="Button">
+            <Setter Property="Template" Value="{StaticResource weekButtonControlTemplate}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{Binding CompletionPercentage, Converter={StaticResource calendarWeekForegroundConverter}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource BackgroundBrush}">
+        <DockPanel Background="{DynamicResource CalendarBackgroundBrush}">
+            
+            <!-- Top menu bar -->
+            <Menu DockPanel.Dock="Top" Background="Transparent">
+                
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New save file" Command="{Binding NewFileCommand}"/>
+                    <MenuItem Header="_Load save file" Command="{Binding LoadFileCommand}"/>
+                    <MenuItem Header="_Move/rename save file" Command="{Binding MoveFileCommand}"/>
+                    <MenuItem Header="_Show save file location" Command="{Binding ShowFilePathCommand}"/>
+                </MenuItem>
+                
+                <MenuItem Header="_Goals">
+                    <MenuItem Header="_Add Goal" Command="{Binding AddGoalCommand}"/>
+                    <MenuItem Header="_Remove Goal" Command="{Binding RemoveGoalCommand}"/>
+                </MenuItem>
+                
+                <MenuItem Header="_Themes">
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Converter={StaticResource escapeUnderscoresConverter}}"/>
+                            <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource AncestorType=Menu}, Path=DataContext.ChangeSkinCommand}"/>
+                            <Setter Property="CommandParameter" Value="{Binding}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    <MenuItem.ItemsSource>
+                        <CompositeCollection>
+                            <MenuItem Header="_Edit themes..." Command="{Binding ShowEditorCommand}">
+                                <MenuItem.Style>
+                                    <Style/>
+                                </MenuItem.Style>
+                            </MenuItem>
+                            <Separator/>
+                            <CollectionContainer x:Name="themesList" Collection="{Binding AvailableThemes}"/>
+                        </CompositeCollection>
+                    </MenuItem.ItemsSource>
+                </MenuItem>
+                
+            </Menu>
+
+            <Grid KeyboardNavigation.TabNavigation="Local">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Header -->
+                <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="15,10,15,0">
+                    <Button DockPanel.Dock="Left" Content="&lt;" Command="{Binding PreviousMonthCommand}"
+                            Style="{StaticResource switchMonthButtonStyle}" TabIndex="0"/>
+
+                    <Button DockPanel.Dock="Right" Content=">" Command="{Binding NextMonthCommand}"
+                            Style="{StaticResource switchMonthButtonStyle}" TabIndex="0"/>
+
+                    <Label Content="{Binding DisplayMonth}" ContentStringFormat="MMMM yyyy"
+                           HorizontalAlignment="Center" FontSize="16"/>
+                </DockPanel>
+
+                <!-- Calendar buttons -->
+                <ItemsControl Grid.Row="1" Grid.Column="0" Panel.ZIndex="10" ItemsSource="{Binding CalendarDays}" TabIndex="1">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="7" Margin="10"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button CommandParameter="{Binding}" Command="{Binding ShowDayWindowCommand}"
+                                    Style="{StaticResource calendarButtonStyle}"
+                                    TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}">
+                                <Grid>
+                                    <Label Content="{Binding Date}" ContentStringFormat="M/dd"
+                                           Foreground="{Binding Path=Foreground,
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                                    <TextBlock Visibility="{Binding HasData,
+                                                Converter={StaticResource boolVisibilityConverter}}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Run Text="{Binding CompletedGoalsCount, Mode=OneWay, FallbackValue='X'}"
+                                        /><Run Text="/"
+                                        /><Run Text="{Binding GoalsCount, Mode=OneWay, FallbackValue='X'}"/>
+                                    </TextBlock>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    
+                </ItemsControl>
+
+                <!-- Week buttons -->
+                <ItemsControl Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding CalendarWeeks}" TabIndex="2">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1" Margin="10"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="7">
+                                
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background"
+                                                Value="{Binding CompletionPercentage,
+                                                    Converter={StaticResource calendarWeekBackgroundConverter}}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=gridBtn, Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource CalendarHoverBgBrush}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=gridBtn, Path=IsKeyboardFocused}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource CalendarHoverBgBrush}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <Grid Width="70" HorizontalAlignment="Right">
+                                        <Button Content="+" Command="{Binding TrackWeekCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource addWeekButtonStyle}"
+                                                Visibility="{Binding HasData,
+                                                    Converter={StaticResource inverseBoolVisibilityConverter}}"
+                                                TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"/>
+                                        <Button x:Name="gridBtn" Command="{Binding ShowWeekWindowCommand}"
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding HasData,
+                                                    Converter={StaticResource boolVisibilityConverter}}"
+                                                Style="{StaticResource weekButtonStyle}"
+                                                TabIndex="{Binding Path=TabIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}">
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Run Text="{Binding CompletedGoalsCount, Mode=OneWay, FallbackValue='X'}"
+                                                /><Run Text="/"
+                                                /><Run Text="{Binding GoalsCount, Mode=OneWay, FallbackValue='X'}"/>
+                                            </TextBlock>
+                                        </Button>
+                                    </Grid>
+                                </DockPanel>
+                                
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

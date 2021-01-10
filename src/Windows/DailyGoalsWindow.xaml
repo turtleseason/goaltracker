@@ -1,0 +1,56 @@
+﻿<Window x:Class="GoalTracker.Windows.DailyGoalsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoalTracker"
+        xmlns:converter="clr-namespace:GoalTracker.Converters"
+        mc:Ignorable="d"
+        Title="Daily Goals" SizeToContent="Height" Width="300"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource windowStyle}"
+        d:DataContext="{x:Static local:DesignerData.DailyGoalsViewModel}">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseCommand}" Key="Esc"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <converter:NullToHiddenConverter x:Key="nullHiddenConverter"/>
+        <BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
+    </Window.Resources>
+
+    <StackPanel Margin="10">
+        <Label Content="{Binding Date}" ContentStringFormat="M" Padding="5,5,5,0"/>
+
+        <Button Content="+ Track daily goals" Command="{Binding TrackDailyGoalsCommand}"
+                Visibility="{Binding CanCreateDay,
+                    Converter={StaticResource booleanVisibilityConverter}}"
+                Width="150" HorizontalAlignment="Left" Margin="20,5,0,0"/>
+
+        <ItemsControl ItemsSource="{Binding DailyGoals}"
+                      Visibility="{Binding Converter={StaticResource nullHiddenConverter}}"
+                      Margin="20,5,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Done}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Label Content="Weekly:" Visibility="{Binding WeeklyGoals,
+                Converter={StaticResource nullHiddenConverter}}"
+               Margin="7,0,0,0"/>
+
+        <ItemsControl ItemsSource="{Binding WeeklyGoals}" Margin="20,0,0,0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Done}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Content="Done" Command="{Binding CloseCommand}"
+                HorizontalAlignment="Right" Width="100" Margin="0,10,0,0"/>
+    </StackPanel>
+</Window>

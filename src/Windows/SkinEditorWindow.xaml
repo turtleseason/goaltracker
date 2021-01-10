@@ -1,0 +1,149 @@
+﻿<Window x:Class="GoalTracker.Windows.SkinEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoalTracker"
+        xmlns:converter="clr-namespace:GoalTracker.Converters"
+        xmlns:ext="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Theme Editor" SizeToContent="WidthAndHeight"
+        Closing="Window_Closing"
+        Style="{StaticResource windowStyle}"
+        d:DataContext="{x:Static local:DesignerData.SkinEditorWindowViewModel}">
+    
+    <Window.Resources>
+        <converter:PathToFileNameConverter x:Key="pathToFileNameConverter"/>
+        <converter:SkinPropertyDataTemplateSelector x:Key="skinPropertyDataTemplateSelector"/>
+
+        <!-- Use fixed colors for editor labels so they will always be legible while changing around skin colors -->
+        <SolidColorBrush x:Key="FixedBackground" Color="#FFF"/>
+        <SolidColorBrush x:Key="FixedForeground" Color="#000"/>
+
+        
+        <!-- SkinProperty data templates for ItemsControl -->
+        <DataTemplate x:Key="colorPropertyTemplate">
+            <DockPanel HorizontalAlignment="Left" Width="250">
+                <Label Content="{Binding DisplayName}"/>
+                <ext:ColorPicker SelectedColor="{Binding Value}" Tag="{Binding ResourceKey}"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="optionalColorPropertyTemplate">
+            <StackPanel Orientation="Horizontal">
+                <DockPanel HorizontalAlignment="Left" Width="250">
+                    <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Content="{Binding DisplayName}"/>
+                    <ext:ColorPicker DockPanel.Dock="Right" HorizontalAlignment="Right" SelectedColor="{Binding Value}" Tag="{Binding ResourceKey}"/>
+                </DockPanel>
+                <CheckBox Content="Use default" IsChecked="{Binding IsUsingFallback}" Margin="10,0,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="doublePropertyTemplate">
+            <DockPanel HorizontalAlignment="Left" Width="250">
+                <Label Content="{Binding DisplayName}"/>
+                <ext:DoubleUpDown HorizontalAlignment="Right" Value="{Binding Value}"
+                                              Minimum="0" Maximum="1" Increment="0.01"
+                                              DefaultValue="0" DisplayDefaultValueOnEmptyText="True"
+                                              FormatString="P0" Width="50"/>
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="pathPropertyTemplate">
+            <DockPanel HorizontalAlignment="Left">
+                <Label Content="{Binding DisplayName}"/>
+                <Label>
+                    <TextBlock Text="{Binding Value, Converter={StaticResource pathToFileNameConverter}, TargetNullValue='none'}"
+                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=Foreground}"
+                               TextTrimming="CharacterEllipsis" MaxWidth="200" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/>
+                </Label>
+                <Button Click="FileSelectButton_Click" Tag="{Binding}" Margin="10,0,0,0" Width="70" HorizontalAlignment="Right">Select...</Button>
+                <Button Click="FileClearButton_Click" Tag="{Binding}" Margin="10,0,0,0" Width="50" HorizontalAlignment="Right">Clear</Button>
+            </DockPanel>
+        </DataTemplate>
+
+        <!-- Default control styles -->
+        <Style TargetType="{x:Type ItemsControl}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="ItemTemplateSelector" Value="{StaticResource skinPropertyDataTemplateSelector}"/>
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="10, 10, 20, 10"/>
+            <Setter Property="IsTabStop" Value="False"/>
+        </Style>
+
+        <Style TargetType="{x:Type ext:ColorPicker}">
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="ColorMode" Value="ColorCanvas"/>
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+        </Style>
+
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource FixedForeground}"/>
+            <Setter Property="Background" Value="{StaticResource FixedBackground}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource FixedBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <ItemsControl ItemsSource="{Binding GeneralColors}"/>
+            <ItemsControl ItemsSource="{Binding BackgroundImage}" Margin="-10,10,10,10" />
+        </StackPanel>
+
+        <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding CalendarDefault}"/>
+        <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding Calendar0}"/>
+        <ItemsControl Grid.Column="0" Grid.Row="3" ItemsSource="{Binding Calendar50}"/>
+        <ItemsControl Grid.Column="0" Grid.Row="4" ItemsSource="{Binding Calendar100}"/>
+
+        <ItemsControl Grid.Column="0" Grid.Row="5" ItemsSource="{Binding CalendarHover}"/>
+        
+        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding CalendarWeek}"/>
+        <ItemsControl Grid.Column="1" Grid.Row="2" ItemsSource="{Binding CalendarWeek0}"/>
+        <ItemsControl Grid.Column="1" Grid.Row="3" ItemsSource="{Binding CalendarWeek50}"/>
+        <ItemsControl Grid.Column="1" Grid.Row="4" ItemsSource="{Binding CalendarWeek100}"/>
+
+        <StackPanel Grid.Column="1" Grid.Row="5" Margin="10" VerticalAlignment="Bottom">
+            <DockPanel>
+                <Label>Theme name:</Label>
+                <TextBox Text="{Binding SkinName}"/>
+            </DockPanel>
+            <Button Content="Save" Command="{Binding SaveCommand}"
+                    HorizontalAlignment="Right" Width="150" Margin="0,10,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

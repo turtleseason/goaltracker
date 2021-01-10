@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <sys:Double x:Key="CalendarWeekOpacity">.67</sys:Double>
+
+    <Color x:Key="BackgroundColor">#121212</Color>
+    <Color x:Key="ForegroundColor">#F0F0F0</Color>
+    <Color x:Key="MenuBorderColor">#D7D7D7</Color>
+    
+    <Color x:Key="CalendarBorderColor">#6E6E6E</Color>
+
+    <Color x:Key="CalendarDefaultBgColor">#323232</Color>
+    <Color x:Key="Calendar0BgColor">#4A4A4A</Color>
+    <Color x:Key="Calendar50BgColor">#6E6E6E</Color>
+    <Color x:Key="Calendar100BgColor">#868686</Color>
+
+    <Color x:Key="CalendarDefaultFgColor">#F0F0F0</Color>
+    <Color x:Key="Calendar0FgColor">#F0F0F0</Color>
+    <Color x:Key="Calendar50FgColor">#F0F0F0</Color>
+    <Color x:Key="Calendar100FgColor">#F0F0F0</Color>
+
+    <Color x:Key="CalendarWeekBgColor">#32323200</Color>
+    <Color x:Key="CalendarWeek0BgColor">#4A4A4A</Color>
+    <Color x:Key="CalendarWeek50BgColor">#6E6E6E</Color>
+    <Color x:Key="CalendarWeek100BgColor">#868686</Color>
+
+    <Color x:Key="CalendarWeekFgColor">#F0F0F0</Color>
+    <Color x:Key="CalendarWeek0FgColor">#F0F0F0</Color>
+    <Color x:Key="CalendarWeek50FgColor">#F0F0F0</Color>
+    <Color x:Key="CalendarWeek100FgColor">#F0F0F0</Color>
+
+    <Color x:Key="CalendarHoverBgColor">#A1A1A1</Color>
+    <Color x:Key="CalendarHoverFgColor">#000000</Color>
+    <Color x:Key="CalendarHoverBorderColor">#646464</Color>
+
+</ResourceDictionary>

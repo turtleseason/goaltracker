@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="CalendarWeekOpacity">.5</sys:Double>
+
+    <Color x:Key="BackgroundColor" R="54" G="50" B="55" A="255"/>
+    <Color x:Key="ForegroundColor" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="MenuBorderColor" R="255" G="255" B="255" A="255"/>
+    
+    <Color x:Key="CalendarBorderColor" R="255" G="255" B="255" A="0"/>
+
+    <Color x:Key="CalendarDefaultBgColor" R="139" G="139" B="178" A="255"/>
+    <Color x:Key="Calendar0BgColor" R="231" G="205" B="185" A="255"/>
+    <Color x:Key="Calendar50BgColor" R="173" G="157" B="192" A="255"/>
+    <Color x:Key="Calendar100BgColor" R="101" G="93" B="156" A="255"/>
+
+    <Color x:Key="CalendarDefaultFgColor" R="234" G="223" B="252" A="255"/>
+    <Color x:Key="Calendar0FgColor" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="Calendar50FgColor" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="Calendar100FgColor" R="238" G="238" B="238" A="255"/>
+
+    <Color x:Key="CalendarWeekBgColor" R="0" G="0" B="0" A="0"/>
+    <Color x:Key="CalendarWeek0BgColor" R="173" G="157" B="192" A="255"/>
+    <Color x:Key="CalendarWeek50BgColor" R="173" G="157" B="192" A="255"/>
+    <Color x:Key="CalendarWeek100BgColor" R="101" G="93" B="156" A="255"/>
+
+    <Color x:Key="CalendarWeekFgColor" R="244" G="234" B="219" A="255"/>
+    <Color x:Key="CalendarWeek0FgColor" R="244" G="234" B="219" A="255"/>
+    <Color x:Key="CalendarWeek50FgColor" R="244" G="234" B="219" A="255"/>
+    <Color x:Key="CalendarWeek100FgColor" R="244" G="234" B="219" A="255"/>
+
+    <Color x:Key="CalendarHoverBgColor" R="116" G="116" B="168" A="255"/>
+    <Color x:Key="CalendarHoverFgColor" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="CalendarHoverBorderColor" R="255" G="255" B="255" A="128"/>
+
+</ResourceDictionary>

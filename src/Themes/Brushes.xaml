@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+    <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource MenuBorderColor}"/>
+
+    <ImageBrush x:Key="CalendarBackgroundBrush" Stretch="UniformToFill" AlignmentY="Top" ImageSource="{DynamicResource BackgroundImage}"/>
+    <SolidColorBrush x:Key="CalendarBorderBrush" Color="{StaticResource CalendarBorderColor}"/>
+
+    <SolidColorBrush x:Key="CalendarBgBrush" Color="{StaticResource CalendarDefaultBgColor}"/>
+    <SolidColorBrush x:Key="Calendar0BgBrush" Color="{StaticResource Calendar0BgColor}"/>
+    <SolidColorBrush x:Key="Calendar50BgBrush" Color="{StaticResource Calendar50BgColor}"/>
+    <SolidColorBrush x:Key="Calendar100BgBrush" Color="{StaticResource Calendar100BgColor}"/>
+
+    <SolidColorBrush x:Key="CalendarFgBrush" Color="{StaticResource CalendarDefaultFgColor}"/>
+    <SolidColorBrush x:Key="Calendar0FgBrush" Color="{StaticResource Calendar0FgColor}"/>
+    <SolidColorBrush x:Key="Calendar50FgBrush" Color="{StaticResource Calendar50FgColor}"/>
+    <SolidColorBrush x:Key="Calendar100FgBrush" Color="{StaticResource Calendar100FgColor}"/>
+
+    <SolidColorBrush x:Key="CalendarWeekBgBrush" Color="{StaticResource CalendarWeekBgColor}" Opacity="{StaticResource CalendarWeekOpacity}"/>
+    <SolidColorBrush x:Key="CalendarWeek0BgBrush" Color="{StaticResource CalendarWeek0BgColor}" Opacity="{StaticResource CalendarWeekOpacity}"/>
+    <SolidColorBrush x:Key="CalendarWeek50BgBrush" Color="{StaticResource CalendarWeek50BgColor}" Opacity="{StaticResource CalendarWeekOpacity}"/>
+    <SolidColorBrush x:Key="CalendarWeek100BgBrush" Color="{StaticResource CalendarWeek100BgColor}" Opacity="{StaticResource CalendarWeekOpacity}"/>
+
+    <SolidColorBrush x:Key="CalendarWeekFgBrush" Color="{StaticResource CalendarWeekFgColor}"/>
+    <SolidColorBrush x:Key="CalendarWeek0FgBrush" Color="{StaticResource CalendarWeek0FgColor}"/>
+    <SolidColorBrush x:Key="CalendarWeek50FgBrush" Color="{StaticResource CalendarWeek50FgColor}"/>
+    <SolidColorBrush x:Key="CalendarWeek100FgBrush" Color="{StaticResource CalendarWeek100FgColor}"/>
+
+    <SolidColorBrush x:Key="CalendarHoverBgBrush" Color="{StaticResource CalendarHoverBgColor}"/>
+    <SolidColorBrush x:Key="CalendarHoverFgBrush" Color="{StaticResource CalendarHoverFgColor}"/>
+    <SolidColorBrush x:Key="CalendarHoverBorderBrush" Color="{StaticResource CalendarHoverBorderColor}"/>
+
+</ResourceDictionary>
