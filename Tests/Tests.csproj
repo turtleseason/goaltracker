@@ -76,10 +76,10 @@
     <Compile Include="src\GoalPeriodTests.cs" />
     <Compile Include="src\GoalTrackerServiceTests.cs" />
     <Compile Include="src\MainWindowVMTests.cs" />
-    <Compile Include="src\ObservableKeyValuePairTests.cs" />
     <Compile Include="src\DayTests.cs" />
     <Compile Include="src\AddGoalWindowVMTests.cs" />
     <Compile Include="src\RemoveGoalWindowVMTests.cs" />
+	<Compile Include="src\Util\EventRaisedTester.cs" />
     <Compile Include="src\WeekTests.cs" />
     <Compile Include="src\WeeklyGoalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -54,9 +54,6 @@
     <ManifestCertificateThumbprint>0C6989EC126946876DB81AF6D354C0011EC5078B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>GoalTracker_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
@@ -95,16 +92,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Converters\BooleanInverseConverter.cs" />
     <Compile Include="src\Converters\EscapeUnderscoresConverter.cs" />
     <Compile Include="src\Converters\PathToFileNameConverter.cs" />
-    <Compile Include="src\_unused\StringToTitleCaseConverter.cs" />
     <Compile Include="src\Converters\SkinPropertyDataTemplateSelector.cs" />
     <Compile Include="src\SkinProperty.cs" />
     <Compile Include="src\Util\DelegateCommand.cs" />
     <Compile Include="src\Util\ObservableObject.cs" />
-    <Compile Include="src\_unused\SkinnedApplication_original.cs" />
     <Compile Include="src\Util\SkinnedApplication.cs" />
-    <Compile Include="src\_unused\SkinResourceDictionary.cs" />
     <Compile Include="src\ViewModels\CalendarButtonViewModel.cs" />
     <Compile Include="src\ViewModels\DailyGoalViewModel.cs" />
     <Compile Include="src\GoalTrackerService.cs" />
@@ -123,11 +118,9 @@
     </Compile>
     <Compile Include="src\Converters\CalendarColorConverters.cs" />
     <Compile Include="src\ViewModels\AddGoalWindowViewModel.cs" />
-    <Compile Include="src\_unused\BooleanInverseConverter.cs" />
     <Compile Include="src\Windows\SkinEditorWindow.xaml.cs">
       <DependentUpon>SkinEditorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\_unused\ChooseSaveLocationWindow.xaml.cs" />
     <Compile Include="src\DailyGoal.cs" />
     <Compile Include="src\ViewModels\DailyGoalsWindowViewModel.cs" />
     <Compile Include="src\Windows\DailyGoalsWindow.xaml.cs" />
@@ -137,11 +130,8 @@
     <Compile Include="src\Windows\RemoveGoalWindow.xaml.cs" />
     <Compile Include="src\Converters\VisibilityConverters.cs" />
     <Compile Include="src\Day.cs" />
-    <Compile Include="src\_unused\ListCombinerConverter.cs" />
-    <Compile Include="src\_unused\ObservableKeyValuePair.cs" />
     <Compile Include="src\SaveDataManager.cs" />
     <Compile Include="src\Week.cs" />
-    <Compile Include="src\_unused\WeekCompletedDayConverter.cs" />
     <Compile Include="src\WeeklyGoal.cs" />
     <Compile Include="src\Windows\WeeklyGoalsWindow.xaml.cs">
     </Compile>
@@ -169,7 +159,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="GoalTracker_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -220,10 +209,6 @@
     <Page Include="src\Windows\SkinEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="src\_unused\ChooseSaveLocationWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="src\Windows\DailyGoalsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
