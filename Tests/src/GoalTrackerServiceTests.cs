@@ -18,6 +18,14 @@ namespace Tests
             return gts;
         }
 
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            // Recreate the save directory before each test run (prevents SaveDataManager
+            // from throwing exceptions if the save directory is missing).
+            GoalTracker.Properties.Settings.Default.Reset();
+        }
+
         [Test]
         public void AddGoalToDays_DoNotAddDuplicateGoals()
         {
