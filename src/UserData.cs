@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace GoalTracker
 {
     // Contains all user the data that will be serialized into a save file.
-    [DataContract(Namespace = "")]
+    [DataContract]
     public class UserData
     {
         [DataMember]
@@ -21,12 +21,12 @@ namespace GoalTracker
         [DataMember]
         List<Day> serializableDays = new List<Day>();
         
-        public SortedDictionary<DateTime, Day> Days { get; set; } = new SortedDictionary<DateTime, Day>();
+        public Dictionary<DateTime, Day> Days { get; set; } = new Dictionary<DateTime, Day>();
 
         [DataMember]
         List<Week> serializableWeeks = new List<Week>();
         
-        public SortedDictionary<DateTime, Week> Weeks { get; set; } = new SortedDictionary<DateTime, Week>();
+        public Dictionary<DateTime, Week> Weeks { get; set; } = new Dictionary<DateTime, Week>();
 
 
         public List<T> GoalsList<T>(T goal) where T : Goal
@@ -60,13 +60,13 @@ namespace GoalTracker
         [OnDeserialized]
         private void Deserialize(StreamingContext context)
         {
-            Days = new SortedDictionary<DateTime, Day>();
+            Days = new Dictionary<DateTime, Day>();
             foreach (Day d in serializableDays)
             {
                 Days.Add(d.Date, d);
             }
 
-            Weeks = new SortedDictionary<DateTime, Week>();
+            Weeks = new Dictionary<DateTime, Week>();
             foreach (Week w in serializableWeeks)
             {
                 Weeks.Add(w.Date, w);

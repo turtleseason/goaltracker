@@ -7,7 +7,7 @@ namespace GoalTracker
     [DataContract]
     public class WeeklyGoal : Goal
     {
-        private static bool[] EmptyWeek = { false, false, false, false, false, false, false };
+        private static bool[] EmptyWeek = new bool[7];
 
         
         public WeeklyGoal(string name, int requiredCount) : base (name, GoalType.Weekly)
@@ -37,7 +37,7 @@ namespace GoalTracker
                     daysCompleted = value;
                     daysCompleted.CollectionChanged += DaysCompleted_CollectionChanged;
                 }
-            } 
+            }
         }
         private ObservableCollection<bool> daysCompleted;
 

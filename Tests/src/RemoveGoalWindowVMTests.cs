@@ -18,8 +18,8 @@ namespace Tests
             List<WeeklyGoal> weeklyGoals = new List<WeeklyGoal>() { new WeeklyGoal("goal3", 1) };
 
             Mock<IGoalTrackerService> mockGts = new Mock<IGoalTrackerService>();
-            mockGts.Setup(mock => mock.DailyGoals).Returns(dailyGoals);
-            mockGts.Setup(mock => mock.WeeklyGoals).Returns(weeklyGoals);
+            mockGts.Setup(mock => mock.DailyGoals).Returns(dailyGoals.AsReadOnly());
+            mockGts.Setup(mock => mock.WeeklyGoals).Returns(weeklyGoals.AsReadOnly());
 
             RemoveGoalWindowViewModel vm = new RemoveGoalWindowViewModel(mockGts.Object, new Mock<IWindowService>().Object);
 

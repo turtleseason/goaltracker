@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using static GoalTracker.Util.DateUtil;
 using static GoalTracker.Goal;
+using System.Collections.ObjectModel;
 
 namespace GoalTracker
 {
@@ -13,8 +14,8 @@ namespace GoalTracker
 
         bool IsUserDataLoaded { get; }
         string SaveFilePath { get; }
-        List<DailyGoal> DailyGoals { get; }
-        List<WeeklyGoal> WeeklyGoals { get; }
+        ReadOnlyCollection<DailyGoal> DailyGoals { get; }
+        ReadOnlyCollection<WeeklyGoal> WeeklyGoals { get; }
 
         void LoadData(UserData userData);
         UserData LoadOrCreateDataFromDefaultPath();
@@ -60,8 +61,8 @@ namespace GoalTracker
 
         public bool IsUserDataLoaded { get => userData != null; }
         public string SaveFilePath { get => saveManager.SaveFilePath; }
-        public List<DailyGoal> DailyGoals { get => userData?.DailyGoals; }
-        public List<WeeklyGoal> WeeklyGoals { get => userData?.WeeklyGoals; }
+        public ReadOnlyCollection<DailyGoal> DailyGoals { get => userData?.DailyGoals.AsReadOnly(); }
+        public ReadOnlyCollection<WeeklyGoal> WeeklyGoals { get => userData?.WeeklyGoals.AsReadOnly(); }
 
         
         // Loads UserData from the given object.

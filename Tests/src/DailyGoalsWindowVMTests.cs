@@ -39,7 +39,7 @@ namespace Tests
             week.Goals.Add(goals[1]);
 
             Mock<IGoalTrackerService> mockGts = new Mock<IGoalTrackerService>();
-            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>());
+            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>().AsReadOnly());
             mockGts.Setup(mock => mock.GetWeekForDate(date)).Returns(week);
             DailyGoalsWindowViewModel vm = new DailyGoalsWindowViewModel(date, mockGts.Object);
 
@@ -52,7 +52,7 @@ namespace Tests
         public void TrackDailyGoalsCommand_CanExecute_ReturnsFalse_WhenDayAlreadyExists()
         {
             Mock<IGoalTrackerService> mockGts = new Mock<IGoalTrackerService>();
-            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>() { new DailyGoal("goal") });
+            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>() { new DailyGoal("goal") }.AsReadOnly());
             mockGts.Setup(mock => mock.GetDayForDate(date)).Returns(new Day(date));
 
             DailyGoalsWindowViewModel vm = new DailyGoalsWindowViewModel(date, mockGts.Object);
@@ -64,7 +64,7 @@ namespace Tests
         public void TrackDailyGoalsCommand_CanExecute_ReturnsFalse_WhenNoDailyGoalsExist()
         {
             Mock<IGoalTrackerService> mockGts = new Mock<IGoalTrackerService>();
-            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>());
+            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>().AsReadOnly());
 
             DailyGoalsWindowViewModel vm = new DailyGoalsWindowViewModel(date, mockGts.Object);
 
@@ -75,7 +75,7 @@ namespace Tests
         public void TrackDailyGoalsCommand_CreatesDayForDate()
         {
             Mock<IGoalTrackerService> mockGts = new Mock<IGoalTrackerService>();
-            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>() { new DailyGoal("goal") });
+            mockGts.Setup(mock => mock.DailyGoals).Returns(new List<DailyGoal>() { new DailyGoal("goal") }.AsReadOnly());
 
             DailyGoalsWindowViewModel vm = new DailyGoalsWindowViewModel(date, mockGts.Object);
 

@@ -96,14 +96,14 @@ namespace GoalTracker
         }
         private static List<WeeklyGoal> weeklyGoals;
 
-        public static SortedDictionary<DateTime, Day> Days
+        public static Dictionary<DateTime, Day> Days
         {
             get
             {
                 if (cachedDays == null)
                 {
                     DateTime start = new DateTime(2020, 8, 30);
-                    cachedDays = new SortedDictionary<DateTime, Day>();
+                    cachedDays = new Dictionary<DateTime, Day>();
                     for (int i = 0; i < 35; i++)
                     {
                         cachedDays.Add(start.AddDays(i), null);
@@ -126,16 +126,16 @@ namespace GoalTracker
                 return cachedDays;
             }
         }
-        private static SortedDictionary<DateTime, Day> cachedDays;
+        private static Dictionary<DateTime, Day> cachedDays;
 
-        public static SortedDictionary<DateTime, Week> Weeks
+        public static Dictionary<DateTime, Week> Weeks
         {
             get
             {
                 if (cachedWeeks == null)
                 {
                     DateTime start = new DateTime(2020, 8, 30);
-                    cachedWeeks = new SortedDictionary<DateTime, Week>();
+                    cachedWeeks = new Dictionary<DateTime, Week>();
                     for (int i = 0; i < 5; i++)
                     {
                         cachedWeeks.Add(start.AddDays(7 * i), null);
@@ -164,7 +164,7 @@ namespace GoalTracker
                 return cachedWeeks;
             }
         }
-        private static SortedDictionary<DateTime, Week> cachedWeeks;
+        private static Dictionary<DateTime, Week> cachedWeeks;
 
         public static WeeklyGoal WeeklyGoal1
         {

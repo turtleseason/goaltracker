@@ -44,7 +44,7 @@ namespace GoalTracker.ViewModels
 
         public DateTime DeleteAfterDate { get; set; }
 
-        private void CreateGoalsList(List<DailyGoal> dailyGoals, List<WeeklyGoal> weeklyGoals)
+        private void CreateGoalsList(IEnumerable<DailyGoal> dailyGoals, IEnumerable<WeeklyGoal> weeklyGoals)
         {
             Goals = new List<Goal>();
             if (dailyGoals != null)
